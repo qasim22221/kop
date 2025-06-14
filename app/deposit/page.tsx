@@ -203,7 +203,7 @@ export default function DepositPage() {
           return {
             hash: transfer.txHash,
             amount: transfer.amount,
-           
+            blockNumber: transfer.blockNumber,
             timestamp: new Date().toISOString(), // BSC API doesn't always provide timestamp
             network: 'BSC Mainnet',
             confirmations,

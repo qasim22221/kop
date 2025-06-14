@@ -631,5 +631,3 @@ export function initializeGasManager(config: MasterWalletConfig): GasManager {
   gasManager = new GasManager(config);
   return gasManager;
 }
-
-export { gasManager }

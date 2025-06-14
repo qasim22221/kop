@@ -321,9 +321,9 @@ export class BlockchainService {
         const events = await this.usdtContract.queryFilter(filter, fromBlock);
         
         const transfers = events.map(event => ({
-          from: event.args?.[0] || '',
-          to: event.args?.[1] || '',
-          amount: ethers.formatUnits(event.args?.[2] || 0, 18),
+          from: 'args' in event && event.args ? event.args[0] : '',
+          to: 'args' in event && event.args ? event.args[1] : '',
+          amount: ethers.formatUnits(('args' in event && event.args ? event.args[2] : 0), 18),
           txHash: event.transactionHash,
           blockNumber: event.blockNumber,
         }));

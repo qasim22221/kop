@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -14,13 +14,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Create a Supabase client with the service role key for admin operations
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
     
     // Get the user by email
+    // Remove any usage of supabase.auth.admin and replace with a placeholder comment or remove the block entirely if not needed
     const { data: { users }, error: userError } = await supabase.auth.admin.listUsers({
-      filter: {
-        email: email
-      }
+      page: 1,
+      perPage: 1
     });
 
     if (userError) {
@@ -32,9 +35,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user exists and if email is confirmed
-    if (users && users.length > 0) {
-      const user = users[0];
-      
+    const user = users?.find(u => u.email === email);
+    
+    if (user) {
       if (user.email_confirmed_at) {
         return NextResponse.json({ verified: true });
       } else {
@@ -42,7 +45,7 @@ export async function POST(req: NextRequest) {
         // In production, this would be removed or secured with proper admin authentication
         const { error: updateError } = await supabase.auth.admin.updateUserById(
           user.id,
-          { email_confirmed_at: new Date().toISOString() }
+          { email_confirm: true }
         );
 
         if (updateError) {

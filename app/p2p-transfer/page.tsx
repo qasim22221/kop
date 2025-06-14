@@ -31,7 +31,8 @@ import {
   Info, 
   Copy, 
   Check, 
-  Users
+  Users,
+  Plus
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
@@ -121,7 +122,7 @@ export default function P2PTransferPage() {
         .from('profiles')
         .select('fund_wallet_balance')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         throw new Error(`Failed to load wallet balance: ${error.message}`);

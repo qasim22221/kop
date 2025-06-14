@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Sparkles, Copy, Check, ArrowLeft, AlertCircle, Loader2, Moon, Sun } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import { toggleTheme, getTheme } from '@/lib/theme';
 
 export default function RegisterPage() {
   const [mounted, setMounted] = useState(false);
@@ -33,15 +34,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check for dark mode preference
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setDarkMode(getTheme() === 'dark');
   }, []);
 
   useEffect(() => {
@@ -227,15 +220,8 @@ export default function RegisterPage() {
   };
 
   const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem('darkMode', String(newMode));
-    
-    if (newMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    toggleTheme();
+    setDarkMode(!darkMode);
   };
 
   if (!mounted) {

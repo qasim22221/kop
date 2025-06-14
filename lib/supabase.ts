@@ -45,60 +45,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   }
 });
 
-// Add admin auth methods if service role key is available
-if (supabaseServiceRoleKey) {
-  console.log('✅ Service role key available, enabling admin auth methods');
-  
-  // Create admin client with service role key
-  const adminClient = createClient(supabaseUrl, supabaseServiceRoleKey, {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: false
-    }
-  });
-  
-  // Add admin methods to the main client
-  supabase.auth.admin = {
-    // List users with filtering
-    listUsers: async (options?: { filter?: any }) => {
-      return adminClient.auth.admin.listUsers(options);
-    },
-    
-    // Get user by ID
-    getUserById: async (userId: string) => {
-      return adminClient.auth.admin.getUserById(userId);
-    },
-    
-    // Update user by ID
-    updateUserById: async (userId: string, attributes: any) => {
-      return adminClient.auth.admin.updateUserById(userId, attributes);
-    },
-    
-    // Delete user
-    deleteUser: async (userId: string) => {
-      return adminClient.auth.admin.deleteUser(userId);
-    },
-    
-    // Manually verify email
-    verifyEmail: async (email: string) => {
-      // First get the user by email
-      const { data, error } = await adminClient.auth.admin.listUsers({
-        filter: { email }
-      });
-      
-      if (error || !data.users || data.users.length === 0) {
-        return { error: error || new Error('User not found') };
-      }
-      
-      // Then update the user to mark email as confirmed
-      const userId = data.users[0].id;
-      return adminClient.auth.admin.updateUserById(userId, {
-        email_confirmed_at: new Date().toISOString()
-      });
-    }
-  };
-}
-
 export type Database = {
   public: {
     Tables: {

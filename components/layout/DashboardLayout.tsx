@@ -44,6 +44,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { NotificationCenter } from '@/components/NotificationCenter';
 import { supabase } from '@/lib/supabase';
+import { toggleTheme, getTheme } from '@/lib/theme';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -65,15 +66,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check for dark mode preference
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setDarkMode(getTheme() === 'dark');
   }, []);
 
   useEffect(() => {
@@ -248,15 +241,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem('darkMode', String(newMode));
-    
-    if (newMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    toggleTheme();
+    setDarkMode(!darkMode);
   };
 
   if (!mounted || authLoading) {

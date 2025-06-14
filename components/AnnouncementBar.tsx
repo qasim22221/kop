@@ -90,7 +90,11 @@ export function AnnouncementBar() {
   };
 
   const dismissAnnouncement = (id: string) => {
-    setDismissed(prev => new Set([...prev, id]));
+    setDismissed(prev => {
+      const newSet = new Set(prev);
+      newSet.add(id);
+      return newSet;
+    });
     setAnnouncements(prev => prev.filter(a => a.id !== id));
   };
 

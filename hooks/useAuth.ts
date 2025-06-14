@@ -91,8 +91,7 @@ export function useAuth() {
           .from('profiles')
           .select('*')
           .eq('id', userId)
-          .maybeSingle()
-          .abortSignal(queryController.signal);
+          .maybeSingle();
 
         clearTimeout(queryTimeoutId);
 

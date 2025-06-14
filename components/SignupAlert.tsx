@@ -217,11 +217,12 @@ export function SignupAlert() {
       const newAlert = generateRandomAlert();
       setAlerts([newAlert]);
       setUsedUsernames(prev => {
-        const updated = new Set([...prev, newAlert.username]);
+        const updated = new Set(prev);
+        updated.add(newAlert.username);
         // Keep only last 50 usernames to prevent memory issues
         if (updated.size > 50) {
           const array = Array.from(updated);
-          return new Set(array.slice(-50));
+          return new Set(array.slice(array.length - 50));
         }
         return updated;
       });
@@ -238,11 +239,12 @@ export function SignupAlert() {
           return updated;
         });
         setUsedUsernames(prev => {
-          const updated = new Set([...prev, newAlert.username]);
+          const updated = new Set(prev);
+          updated.add(newAlert.username);
           // Keep only last 50 usernames
           if (updated.size > 50) {
             const array = Array.from(updated);
-            return new Set(array.slice(-50));
+            return new Set(array.slice(array.length - 50));
           }
           return updated;
         });

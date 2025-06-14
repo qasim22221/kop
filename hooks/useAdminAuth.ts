@@ -186,7 +186,7 @@ export function useAdminAuth() {
       current = current[part];
     }
 
-    return current === true;
+    return typeof current === "boolean" && current === true;
   };
 
   return {

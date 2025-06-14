@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -63,7 +63,19 @@ interface TransactionStats {
   largestExpense: number;
 }
 
-export default function TransactionsPage() {
+interface P2PTransfer {
+  id: string;
+  is_sender: boolean;
+  amount: number;
+  net_amount: number;
+  description?: string;
+  created_at: string;
+  status: string;
+  sender_username: string;
+  receiver_username: string;
+}
+
+function TransactionsPageContent() {
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -199,7 +211,7 @@ export default function TransactionsPage() {
         limit_param: 1000
       });
 
-      (p2pTransfers || []).forEach(transfer => {
+      (p2pTransfers || []).forEach((transfer: P2PTransfer) => {
         allTransactions.push({
           id: transfer.id,
           type: transfer.is_sender ? 'p2p_send' : 'p2p_receive',
@@ -838,5 +850,13 @@ export default function TransactionsPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function TransactionsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TransactionsPageContent />
+    </Suspense>
   );
 }

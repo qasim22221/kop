@@ -144,7 +144,7 @@ export default function RecyclePage() {
         current_cycle: totalCycles + 1,
         last_reactivation: lastReactivation,
         next_eligible_date: null, // No waiting period for reactivation
-        can_reactivate: canReactivate
+        can_reactivate: !!canReactivate
       });
     } catch (err: any) {
       console.error('Error loading recycle stats:', err);

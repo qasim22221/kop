@@ -815,7 +815,7 @@ export default function PoolsPage() {
                         </div>
                         <div>
                           <span className="font-medium">Reward Paid:</span>
-                          <p className={pool.reward_paid > 0 ? 'text-green-600 dark:text-green-400 font-semibold' : ''}>
+                          <p className={pool.reward_paid != null && pool.reward_paid > 0 ? 'text-green-600 dark:text-green-400 font-semibold' : ''}>
                             ${pool.reward_paid != null ? pool.reward_paid.toFixed(2) : '0.00'}
                           </p>
                         </div>

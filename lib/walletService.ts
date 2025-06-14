@@ -405,7 +405,7 @@ export class WalletService {
 
       return {
         valid: true,
-        to: tx.to,
+        to: tx.to ?? undefined,
         from: tx.from,
         confirmations: confirmationData.confirmations,
         confirmed: confirmationData.confirmed,

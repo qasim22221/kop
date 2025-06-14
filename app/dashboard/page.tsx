@@ -55,6 +55,13 @@ interface DashboardStats {
   teamSize: number;
   rank: string;
   accountStatus: string;
+  poolStatus: string;
+  totalDeposit?: number;
+  totalWithdrawal?: number;
+  levelIncome?: number;
+  sponsorIncome?: number;
+  todayIncome?: number;
+  yesterdayIncome?: number;
 }
 
 export default function DashboardPage() {
