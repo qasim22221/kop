@@ -933,7 +933,7 @@ export default function DashboardPage() {
                   </div>
                   <h4 className="font-semibold text-teal-900 mb-1">Global Turnover</h4>
                   <p className="text-2xl font-bold text-teal-700">
-                    ${showBalances ? dashboardStats?.globalTurnoverIncome.toFixed(2) || '0.00' : '••••'}
+                    ${showBalances ? dashboardStats?.globalTurnoverIncome.toFixed(2) || '0.00' : '•••'}
                   </p>
                   <p className="text-teal-600 text-xs">1-2% daily</p>
                 </CardContent>
@@ -950,7 +950,7 @@ export default function DashboardPage() {
                   </div>
                   <h4 className="font-semibold text-pink-900 mb-1">Team Rewards</h4>
                   <p className="text-2xl font-bold text-pink-700">
-                    ${showBalances ? dashboardStats?.teamRewards.toFixed(2) || '0.00' : '••••'}
+                    ${showBalances ? dashboardStats?.teamRewards.toFixed(2) || '0.00' : '•••'}
                   </p>
                   <p className="text-pink-600 text-xs">$10-$5,000</p>
                 </CardContent>
